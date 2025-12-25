@@ -39,18 +39,18 @@ export const Card = React.memo(
         />
         <div
           className={cn(
-            "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
+            "absolute inset-0 bg-black/40 flex items-end py-4 px-4 transition-opacity duration-300",
             // Always visible on mobile, hover-based on desktop
             "opacity-100 md:opacity-0",
             hovered === index && "md:opacity-100"
           )}
         >
-          <div className="space-y-1">
-            <div className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+          <div className="space-y-0.5">
+            <div className="text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
               {name}
             </div>
             {subtitle && (
-              <div className="text-sm md:text-base font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-300">
+              <div className="text-xs md:text-sm font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-300">
                 {subtitle}
               </div>
             )}
