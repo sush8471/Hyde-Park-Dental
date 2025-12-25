@@ -1,11 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Zap, Award, Cpu, Heart, CreditCard, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { motion, PanInfo } from "motion/react";
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 function FeatureWithAdvantages() {
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    if (!carouselApi) {
+      return;
+    }
+    const updateSelection = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+    updateSelection();
+    carouselApi.on("select", updateSelection);
+    return () => {
+      carouselApi.off("select", updateSelection);
+    };
+  }, [carouselApi]);
 
   const advantages = [
     {
@@ -52,31 +71,6 @@ function FeatureWithAdvantages() {
     }
   ];
 
-  const handleDragEnd = (_event: any, info: PanInfo) => {
-    // Prevent multiple transitions
-    if (isTransitioning) return;
-
-    const swipeThreshold = 50;
-    const velocity = Math.abs(info.velocity.x);
-    const offset = info.offset.x;
-
-    // Only trigger if drag is significant enough
-    if (Math.abs(offset) > swipeThreshold || velocity > 500) {
-      setIsTransitioning(true);
-
-      if (offset > 0 && currentSlide > 0) {
-        // Swipe right - go to previous
-        setCurrentSlide(currentSlide - 1);
-      } else if (offset < 0 && currentSlide < advantages.length - 1) {
-        // Swipe left - go to next
-        setCurrentSlide(currentSlide + 1);
-      }
-
-      // Reset transition lock after animation completes
-      setTimeout(() => setIsTransitioning(false), 400);
-    }
-  };
-
   return (
     <div className="w-full py-20 lg:py-32">
       <div className="container mx-auto px-4">
@@ -91,60 +85,23 @@ function FeatureWithAdvantages() {
             </p>
           </div>
 
-          {/* Mobile Carousel with increased top margin */}
-          <div className="flex gap-10 pt-16 flex-col w-full md:hidden">
-            <div className="relative">
-              {/* Navigation Buttons */}
-              <button
-                onClick={() => {
-                  if (!isTransitioning && currentSlide > 0) {
-                    setIsTransitioning(true);
-                    setCurrentSlide(currentSlide - 1);
-                    setTimeout(() => setIsTransitioning(false), 400);
-                  }
-                }}
-                disabled={currentSlide === 0}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
-                aria-label="Previous benefit"
-              >
-                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
 
-              <button
-                onClick={() => {
-                  if (!isTransitioning && currentSlide < advantages.length - 1) {
-                    setIsTransitioning(true);
-                    setCurrentSlide(currentSlide + 1);
-                    setTimeout(() => setIsTransitioning(false), 400);
-                  }
-                }}
-                disabled={currentSlide === advantages.length - 1}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
-                aria-label="Next benefit"
-              >
-                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Carousel */}
-              <div className="overflow-hidden px-12">
-                <motion.div
-                  className="flex"
-                  animate={{ x: `-${currentSlide * 100}%` }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 400, 
-                    damping: 35,
-                    mass: 0.8
-                  }}
-                >
-                  {advantages.map((advantage, index) => {
-                    const Icon = advantage.icon;
-                    return (
-                      <div key={index} className="min-w-full px-4">
+          {/* Mobile Carousel - Swipe to Navigate */}
+          <div className="pt-16 w-full md:hidden">
+            <Carousel
+              setApi={setCarouselApi}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {advantages.map((advantage, index) => {
+                  const Icon = advantage.icon;
+                  return (
+                    <CarouselItem key={index} className="basis-full">
+                      <div className="px-4">
                         <div className="flex flex-col gap-6 items-center text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                           <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${advantage.gradient} flex items-center justify-center shadow-md`}>
                             <Icon className={`w-10 h-10 ${advantage.iconColor}`} />
@@ -157,29 +114,21 @@ function FeatureWithAdvantages() {
                           </div>
                         </div>
                       </div>
-                    );
-                  })}
-                </motion.div>
-              </div>
-            </div>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+            </Carousel>
 
             {/* Pagination Dots */}
-            <div className="flex justify-center gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-6">
               {advantages.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    if (!isTransitioning) {
-                      setIsTransitioning(true);
-                      setCurrentSlide(index);
-                      setTimeout(() => setIsTransitioning(false), 400);
-                    }
-                  }}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentSlide 
-                      ? 'w-8 bg-primary' 
-                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                  className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                    currentSlide === index ? "bg-primary w-8" : "bg-primary/20"
                   }`}
+                  onClick={() => carouselApi?.scrollTo(index)}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
