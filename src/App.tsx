@@ -155,7 +155,7 @@ function App() {
           subtitle="Over 40 years serving Adelaide families with expert dental care, advanced technology, and a warm, welcoming approach. Experience the Hyde Park difference."
           backgroundImage="/team-hero.jpg"
           contactInfo={{
-            website: "hydeparkdental.com.au",
+            website: "hydeparkdental.vercel.app",
             phone: "(08) 8272 4855",
             address: "84a King William Rd, Goodwood SA",
           }}

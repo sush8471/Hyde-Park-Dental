@@ -92,20 +92,8 @@ const HeroSection2 = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       >
         {/* Left Side: Content */}
         <div className="flex w-full flex-col justify-between p-8 md:w-1/2 md:p-12 lg:w-3/5 lg:p-16">
-            {/* Top Section: Logo & Main Content */}
+            {/* Main Content */}
             <div>
-                <motion.header className="mb-12" variants={itemVariants as any}>
-                    {logo && (
-                        <div className="flex items-center">
-                            <img src={logo.url} alt={logo.alt} className="mr-3 h-12" />
-                            <div>
-                                {logo.text && <p className="text-lg font-bold text-foreground">{logo.text}</p>}
-                                {slogan && <p className="text-xs tracking-wider text-muted-foreground">{slogan}</p>}
-                            </div>
-                        </div>
-                    )}
-                </motion.header>
-
                 <motion.main variants={containerVariants as any}>
                     <motion.h1 className="text-4xl font-bold leading-tight text-foreground md:text-5xl" variants={itemVariants as any}>
                         {title}
@@ -125,18 +113,31 @@ const HeroSection2 = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             {/* Bottom Section: Footer Info */}
             <motion.footer className="mt-12 w-full" variants={itemVariants as any}>
                 <div className="grid grid-cols-1 gap-6 text-xs text-muted-foreground sm:grid-cols-3">
-                    <div className="flex items-center">
+                    <a 
+                      href="https://hydeparkdental.vercel.app" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                    >
                         <InfoIcon type="website" />
-                        <span>{contactInfo.website}</span>
-                    </div>
-                    <div className="flex items-center">
+                        <span className="group-hover:underline">{contactInfo.website}</span>
+                    </a>
+                    <a 
+                      href="tel:0882724855" 
+                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                    >
                         <InfoIcon type="phone" />
-                        <span>{contactInfo.phone}</span>
-                    </div>
-                    <div className="flex items-center">
+                        <span className="group-hover:underline">{contactInfo.phone}</span>
+                    </a>
+                    <a 
+                      href="https://maps.app.goo.gl/kVDEZJgbh2WcF2bn8" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                    >
                         <InfoIcon type="address" />
-                        <span>{contactInfo.address}</span>
-                    </div>
+                        <span className="group-hover:underline">{contactInfo.address}</span>
+                    </a>
                 </div>
             </motion.footer>
         </div>

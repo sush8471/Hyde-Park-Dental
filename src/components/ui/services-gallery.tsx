@@ -216,9 +216,9 @@ const ServicesGallery = ({
                         {item.description}
                       </div>
                       
-                      <div className="flex items-center text-sm font-semibold bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                      <div className="flex items-center text-xs font-medium text-white/70 group-hover:text-white transition-colors">
                         Learn More{" "}
-                        <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="ml-1 size-3 transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
                   </div>

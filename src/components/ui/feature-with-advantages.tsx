@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Zap, Award, Cpu, Heart, CreditCard, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "motion/react";
+import { motion, PanInfo } from "motion/react";
 
 function FeatureWithAdvantages() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const advantages = [
     {
@@ -51,12 +52,28 @@ function FeatureWithAdvantages() {
     }
   ];
 
-  const handleDragEnd = (_event: any, info: any) => {
+  const handleDragEnd = (_event: any, info: PanInfo) => {
+    // Prevent multiple transitions
+    if (isTransitioning) return;
+
     const swipeThreshold = 50;
-    if (info.offset.x > swipeThreshold && currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    } else if (info.offset.x < -swipeThreshold && currentSlide < advantages.length - 1) {
-      setCurrentSlide(currentSlide + 1);
+    const velocity = Math.abs(info.velocity.x);
+    const offset = info.offset.x;
+
+    // Only trigger if drag is significant enough
+    if (Math.abs(offset) > swipeThreshold || velocity > 500) {
+      setIsTransitioning(true);
+
+      if (offset > 0 && currentSlide > 0) {
+        // Swipe right - go to previous
+        setCurrentSlide(currentSlide - 1);
+      } else if (offset < 0 && currentSlide < advantages.length - 1) {
+        // Swipe left - go to next
+        setCurrentSlide(currentSlide + 1);
+      }
+
+      // Reset transition lock after animation completes
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   };
 
@@ -86,10 +103,18 @@ function FeatureWithAdvantages() {
                 className="flex"
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.1}
+                dragElastic={0.2}
+                dragMomentum={false}
                 onDragEnd={handleDragEnd}
                 animate={{ x: `-${currentSlide * 100}%` }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 400, 
+                  damping: 35,
+                  mass: 0.8
+                }}
+                style={{ cursor: 'grab' }}
+                whileTap={{ cursor: 'grabbing' }}
               >
                 {advantages.map((advantage, index) => {
                   const Icon = advantage.icon;
@@ -117,11 +142,17 @@ function FeatureWithAdvantages() {
               {advantages.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => setCurrentSlide(index)}
+                  onClick={() => {
+                    if (!isTransitioning) {
+                      setIsTransitioning(true);
+                      setCurrentSlide(index);
+                      setTimeout(() => setIsTransitioning(false), 400);
+                    }
+                  }}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === currentSlide 
                       ? 'w-8 bg-primary' 
-                      : 'w-2 bg-gray-300'
+                      : 'w-2 bg-gray-300 hover:bg-gray-400'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />

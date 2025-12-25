@@ -101,7 +101,7 @@ export function HydeParkNavbar() {
                 alt="Hyde Park Dental Logo" 
                 className="h-8 w-auto"
               />
-              <span className="hidden sm:inline-block font-display font-bold text-lg">
+              <span className="inline-block font-display font-bold text-lg">
                 Hyde Park <span className="gradient-text">Dental</span>
               </span>
             </a>

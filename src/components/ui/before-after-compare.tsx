@@ -71,15 +71,36 @@ export const Compare = ({
   );
 
   const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => handleStart(e.touches[0].clientX),
-    [handleStart]
+    (e: React.TouchEvent) => {
+      // Only start dragging if touching the handle area
+      const touch = e.touches[0];
+      if (!sliderRef.current) return;
+      
+      const rect = sliderRef.current.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const percent = (x / rect.width) * 100;
+      
+      // Check if touch is near the slider (within 15% of slider position)
+      const isNearSlider = Math.abs(percent - sliderXPercent) < 15;
+      
+      if (isNearSlider) {
+        e.preventDefault(); // Prevent scroll only when actually dragging slider
+        handleStart(touch.clientX);
+      }
+    },
+    [handleStart, sliderXPercent]
   );
 
   const handleTouchEnd = useCallback(() => handleEnd(), [handleEnd]);
 
   const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => handleMove(e.touches[0].clientX),
-    [handleMove]
+    (e: React.TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault(); // Only prevent scroll when actively dragging
+        handleMove(e.touches[0].clientX);
+      }
+    },
+    [handleMove, isDragging]
   );
 
   const handleMouseLeave = () => {
@@ -97,6 +118,7 @@ export const Compare = ({
       className={cn("w-[400px] h-[400px] overflow-hidden relative", className)}
       style={{
         cursor: slideMode === "drag" ? (isDragging ? "grabbing" : "grab") : "col-resize",
+        touchAction: "pan-y", // Allow vertical scrolling, prevent horizontal pan
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

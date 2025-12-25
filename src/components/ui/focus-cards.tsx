@@ -40,7 +40,9 @@ export const Card = React.memo(
         <div
           className={cn(
             "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
-            hovered === index ? "opacity-100" : "opacity-0"
+            // Always visible on mobile, hover-based on desktop
+            "opacity-100 md:opacity-0",
+            hovered === index && "md:opacity-100"
           )}
         >
           <div className="space-y-1">
