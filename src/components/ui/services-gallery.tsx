@@ -142,12 +142,12 @@ const ServicesGallery = ({
   return (
     <section className="py-20 lg:py-32">
       <div className="container mx-auto">
-        <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
-          <div className="flex flex-col gap-4">
+        <div className="mb-8 flex flex-col items-center text-center md:mb-14 lg:mb-16">
+          <div className="flex flex-col gap-4 items-center max-w-3xl">
             <h2 className="text-3xl font-bold font-display md:text-4xl lg:text-5xl text-text-primary">
               Complete <span className="gradient-text">Smile Solutions</span>
             </h2>
-            <p className="max-w-lg text-muted-foreground">{description}</p>
+            <p className="text-muted-foreground">{description}</p>
 
           </div>
           <div className="hidden shrink-0 gap-2 md:flex">

@@ -12,8 +12,8 @@ import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react
 function HydeParkFooter() {
   return (
     <footer className="relative border-t bg-background text-foreground transition-colors duration-300">
-      <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="container mx-auto px-4 py-8 md:py-12 md:px-6 lg:px-8">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-3">
           {/* Brand Section */}
           <div className="relative">
             <div className="mb-4">
@@ -39,45 +39,19 @@ function HydeParkFooter() {
               <a href="#home" className="block transition-colors hover:text-primary">
                 Home
               </a>
-              <a href="#about" className="block transition-colors hover:text-primary">
-                About Us
-              </a>
               <a href="#services" className="block transition-colors hover:text-primary">
-                Our Services
+                Services
               </a>
               <a href="#team" className="block transition-colors hover:text-primary">
-                Meet the Team
+                Our Team
               </a>
               <a href="#testimonials" className="block transition-colors hover:text-primary">
-                Patient Reviews
+                Reviews
+              </a>
+              <a href="#contact" className="block transition-colors hover:text-primary">
+                Contact
               </a>
             </nav>
-          </div>
-
-          {/* Contact Information */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold font-display">Contact Us</h3>
-            <address className="space-y-3 text-sm not-italic">
-              <div className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
-                <div>
-                  <p>83 King William Road</p>
-                  <p>Hyde Park, SA 5061</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                <a href="tel:0882724855" className="hover:text-primary transition-colors">
-                  08 8272 4855
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                <a href="mailto:hpdc@hydeparkdental.com.au" className="hover:text-primary transition-colors break-all">
-                  hpdc@hydeparkdental.com.au
-                </a>
-              </div>
-            </address>
           </div>
 
           {/* Social Media */}
@@ -193,21 +167,10 @@ function HydeParkFooter() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
+        <div className="mt-8 md:mt-12 flex flex-col items-center justify-center border-t pt-6 md:pt-8 text-center">
           <p className="text-sm text-muted-foreground">
             © 2026 Hyde Park Dental. All rights reserved.
           </p>
-          <nav className="flex flex-wrap gap-4 text-sm justify-center">
-            <a href="#privacy" className="transition-colors hover:text-primary">
-              Privacy Policy
-            </a>
-            <a href="#terms" className="transition-colors hover:text-primary">
-              Terms of Service
-            </a>
-            <a href="#accessibility" className="transition-colors hover:text-primary">
-              Accessibility
-            </a>
-          </nav>
         </div>
       </div>
     </footer>

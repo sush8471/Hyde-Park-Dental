@@ -1,7 +1,8 @@
 "use client";
 
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useInView } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -50,15 +51,55 @@ export interface ClientsSectionProps {
 
 // --- Internal Sub-Components ---
 
-// StatCard using shadcn variables
-const StatCard = ({ value, label }: Stat) => (
-  <Card className="bg-muted/50 border-border text-center rounded-xl">
-    <CardContent className="p-4">
-      <p className="text-3xl font-bold text-foreground">{value}</p>
-      <p className="text-sm text-muted-foreground">{label}</p>
-    </CardContent>
-  </Card>
-);
+// StatCard with animated counting
+const StatCard = ({ value, label }: Stat) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  // Parse the number from the value string (e.g., "40+" -> 40, "10,000+" -> 10000, "5.0" -> 5.0)
+  const targetNumber = parseFloat(value.replace(/[^0-9.]/g, ''));
+  const suffix = value.replace(/[0-9.,]/g, ''); // Extract suffix like "+", "★", etc.
+  const hasDecimal = value.includes('.');
+  
+  useEffect(() => {
+    if (!isInView) return;
+    
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = targetNumber / steps;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= targetNumber) {
+        setCount(targetNumber);
+        clearInterval(timer);
+      } else {
+        setCount(current);
+      }
+    }, duration / steps);
+    
+    return () => clearInterval(timer);
+  }, [isInView, targetNumber]);
+  
+  const displayValue = hasDecimal 
+    ? count.toFixed(1) 
+    : count >= 1000 
+      ? Math.floor(count).toLocaleString() 
+      : Math.floor(count);
+  
+  return (
+    <Card ref={ref} className="bg-muted/50 border-border text-center rounded-xl">
+      <CardContent className="p-4">
+        <p className="text-3xl font-bold text-foreground">
+          {displayValue}{suffix}
+        </p>
+        <p className="text-sm text-muted-foreground">{label}</p>
+      </CardContent>
+    </Card>
+  );
+};
 
 // Helper function to get initials from name
 const getInitials = (name: string): string => {
@@ -158,16 +199,12 @@ export const ClientsSection = ({
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start px-4">
         
         {/* Left Column: Sticky Content */}
-        <div className="flex flex-col gap-6 lg:sticky lg:top-20">
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-border bg-muted/50 px-3 py-1 text-sm">
-            <div className="h-2 w-2 rounded-full bg-green-500" />
-            <span className="text-muted-foreground">{tagLabel}</span>
-          </div>
-
+        <div className="flex flex-col gap-6 items-center text-center lg:items-start lg:text-left lg:sticky lg:top-20">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight font-display text-text-primary">
             {title}
           </h2>
-          <p className="text-lg text-muted-foreground">{description}</p>
+          <p className="text-lg text-muted-foreground max-w-xl">
+{description}</p>
           <div className="grid grid-cols-3 gap-4 mt-4">
             {stats.map((stat) => (
               <StatCard key={stat.label} {...stat} />

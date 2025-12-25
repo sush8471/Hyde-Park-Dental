@@ -7,6 +7,7 @@ import { BeforeAfterGallery } from './components/ui/before-after-gallery'
 import { TeamSection } from './components/ui/team-section'
 import { HydeParkFooter } from './components/ui/footer-section'
 import { HydeParkNavbar } from './components/ui/hyde-park-navbar'
+import { HydeParkContactSection } from './components/ui/hyde-park-contact-section'
 import { useState, useEffect } from 'react'
 import { motion, useInView } from 'motion/react'
 import { useRef } from 'react'
@@ -186,10 +187,11 @@ function App() {
         <TeamSection />
       </section>
 
+      {/* Contact Section */}
+      <HydeParkContactSection />
+
       {/* Footer */}
-      <section id="contact">
-        <HydeParkFooter />
-      </section>
+      <HydeParkFooter />
     </div>
   )
 }

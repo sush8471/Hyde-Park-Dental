@@ -80,14 +80,9 @@ function FeatureWithAdvantages() {
   return (
     <div className="w-full py-20 lg:py-32">
       <div className="container mx-auto px-4">
-        <div className="flex gap-[18px] py-12 lg:py-16 flex-col items-start max-w-7xl mx-auto">
-          {/* Badge */}
-          <div>
-            <Badge>Excellence in Dental Care</Badge>
-          </div>
-          
+        <div className="flex gap-[18px] py-12 lg:py-16 flex-col items-center text-center max-w-7xl mx-auto">
           {/* Heading and description with better spacing */}
-          <div className="flex gap-6 flex-col max-w-3xl">
+          <div className="flex gap-6 flex-col items-center max-w-3xl">
             <h2 className="text-3xl md:text-5xl tracking-tighter font-regular text-text-primary font-display leading-tight">
               Why Choose <span className="gradient-text">Hyde Park Dental</span>
             </h2>
