@@ -195,7 +195,7 @@ function HydeParkFooter() {
         {/* Bottom Section */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Hyde Park Dental. All rights reserved.
+            © 2026 Hyde Park Dental. All rights reserved.
           </p>
           <nav className="flex flex-wrap gap-4 text-sm justify-center">
             <a href="#privacy" className="transition-colors hover:text-primary">
