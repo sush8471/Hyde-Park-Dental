@@ -434,7 +434,7 @@ export const HydeParkTestimonials = () => {
   return (
     <>
       <ClientsSection
-        tagLabel="Trusted by Adelaide"
+        tagLabel=""
         title={
           <>
             Patient <span className="gradient-text">Stories</span>

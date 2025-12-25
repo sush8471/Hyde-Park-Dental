@@ -98,43 +98,74 @@ function FeatureWithAdvantages() {
 
           {/* Mobile Carousel with increased top margin */}
           <div className="flex gap-10 pt-16 flex-col w-full md:hidden">
-            <div className="relative overflow-hidden">
-              <motion.div
-                className="flex"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
-                dragMomentum={false}
-                onDragEnd={handleDragEnd}
-                animate={{ x: `-${currentSlide * 100}%` }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 400, 
-                  damping: 35,
-                  mass: 0.8
+            <div className="relative">
+              {/* Navigation Buttons */}
+              <button
+                onClick={() => {
+                  if (!isTransitioning && currentSlide > 0) {
+                    setIsTransitioning(true);
+                    setCurrentSlide(currentSlide - 1);
+                    setTimeout(() => setIsTransitioning(false), 400);
+                  }
                 }}
-                style={{ cursor: 'grab' }}
-                whileTap={{ cursor: 'grabbing' }}
+                disabled={currentSlide === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                aria-label="Previous benefit"
               >
-                {advantages.map((advantage, index) => {
-                  const Icon = advantage.icon;
-                  return (
-                    <div key={index} className="min-w-full px-4">
-                      <div className="flex flex-col gap-6 items-center text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                        <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${advantage.gradient} flex items-center justify-center shadow-md`}>
-                          <Icon className={`w-10 h-10 ${advantage.iconColor}`} />
-                        </div>
-                        <div className="flex flex-col gap-3">
-                          <p className="font-bold text-text-primary text-2xl font-display">{advantage.title}</p>
-                          <p className="text-muted-foreground text-base leading-relaxed">
-                            {advantage.description}
-                          </p>
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!isTransitioning && currentSlide < advantages.length - 1) {
+                    setIsTransitioning(true);
+                    setCurrentSlide(currentSlide + 1);
+                    setTimeout(() => setIsTransitioning(false), 400);
+                  }
+                }}
+                disabled={currentSlide === advantages.length - 1}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                aria-label="Next benefit"
+              >
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Carousel */}
+              <div className="overflow-hidden px-12">
+                <motion.div
+                  className="flex"
+                  animate={{ x: `-${currentSlide * 100}%` }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 400, 
+                    damping: 35,
+                    mass: 0.8
+                  }}
+                >
+                  {advantages.map((advantage, index) => {
+                    const Icon = advantage.icon;
+                    return (
+                      <div key={index} className="min-w-full px-4">
+                        <div className="flex flex-col gap-6 items-center text-center bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                          <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${advantage.gradient} flex items-center justify-center shadow-md`}>
+                            <Icon className={`w-10 h-10 ${advantage.iconColor}`} />
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            <p className="font-bold text-text-primary text-2xl font-display">{advantage.title}</p>
+                            <p className="text-muted-foreground text-base leading-relaxed">
+                              {advantage.description}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </div>
             </div>
 
             {/* Pagination Dots */}
@@ -158,11 +189,6 @@ function FeatureWithAdvantages() {
                 />
               ))}
             </div>
-
-            {/* Swipe Instruction */}
-            <p className="text-center text-sm text-muted-foreground">
-              ← Swipe to explore more benefits →
-            </p>
           </div>
 
           {/* Desktop Grid with increased top margin */}

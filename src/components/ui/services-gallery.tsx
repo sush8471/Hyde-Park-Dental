@@ -148,9 +148,7 @@ const ServicesGallery = ({
               Complete <span className="gradient-text">Smile Solutions</span>
             </h2>
             <p className="max-w-lg text-muted-foreground">{description}</p>
-            <p className="text-sm text-primary font-medium">
-              Click on any service to learn more
-            </p>
+
           </div>
           <div className="hidden shrink-0 gap-2 md:flex">
             <Button

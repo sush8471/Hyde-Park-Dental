@@ -48,9 +48,7 @@ export const BeforeAfterGallery = () => {
             <p className="text-lg text-muted-foreground">
               See the remarkable transformations achieved by our experienced team at Hyde Park Dental.
             </p>
-            <p className="text-sm text-primary font-semibold">
-              Drag the slider to compare before and after
-            </p>
+
           </div>
 
           {/* Gallery Grid */}
