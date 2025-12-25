@@ -117,14 +117,14 @@ const HeroSection2 = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                       href="https://hydeparkdental.vercel.app" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                      className="inline-flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group w-fit"
                     >
                         <InfoIcon type="website" />
                         <span className="group-hover:underline">{contactInfo.website}</span>
                     </a>
                     <a 
                       href="tel:0882724855" 
-                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                      className="inline-flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group w-fit"
                     >
                         <InfoIcon type="phone" />
                         <span className="group-hover:underline">{contactInfo.phone}</span>
@@ -133,7 +133,7 @@ const HeroSection2 = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                       href="https://maps.app.goo.gl/kVDEZJgbh2WcF2bn8" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center hover:text-primary transition-colors cursor-pointer group"
+                      className="inline-flex items-center gap-2 hover:text-primary transition-colors cursor-pointer group w-fit"
                     >
                         <InfoIcon type="address" />
                         <span className="group-hover:underline">{contactInfo.address}</span>
