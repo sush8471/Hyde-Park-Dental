@@ -148,31 +148,6 @@ const ServicesGallery = ({
               Complete <span className="gradient-text">Smile Solutions</span>
             </h2>
             <p className="text-muted-foreground">{description}</p>
-
-          </div>
-          <div className="hidden shrink-0 gap-2 md:flex">
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollPrev();
-              }}
-              disabled={!canScrollPrev}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowLeft className="size-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                carouselApi?.scrollNext();
-              }}
-              disabled={!canScrollNext}
-              className="disabled:pointer-events-auto"
-            >
-              <ArrowRight className="size-5" />
-            </Button>
           </div>
         </div>
       </div>
@@ -180,11 +155,8 @@ const ServicesGallery = ({
         <Carousel
           setApi={setCarouselApi}
           opts={{
-            breakpoints: {
-              "(max-width: 768px)": {
-                dragFree: true,
-              },
-            },
+            dragFree: true,
+            align: "start",
           }}
         >
           <CarouselContent className="ml-0 2xl:ml-[max(8rem,calc(50vw-700px))] 2xl:mr-[max(0rem,calc(50vw-700px))]">
@@ -204,16 +176,16 @@ const ServicesGallery = ({
                       className="absolute h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 h-full bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                    
+
                     <div className="absolute inset-x-0 bottom-0 flex flex-col items-start p-6 text-white md:p-8">
                       <div className="mb-2 pt-4 text-xl font-semibold font-display md:mb-3 md:pt-4 lg:pt-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                         {item.title}
                       </div>
-                      
+
                       <div className="mb-8 line-clamp-2 md:mb-12 lg:mb-9 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                         {item.description}
                       </div>
-                      
+
                       <div className="flex items-center text-xs font-medium text-white/70 group-hover:text-white transition-colors">
                         Learn More{" "}
                         <ArrowRight className="ml-1 size-3 transition-transform group-hover:translate-x-1" />
@@ -240,7 +212,10 @@ const ServicesGallery = ({
       </div>
 
       {/* Service Details Dialog */}
-      <Dialog open={selectedService !== null} onOpenChange={(open) => !open && setSelectedService(null)}>
+      <Dialog
+        open={selectedService !== null}
+        onOpenChange={(open) => !open && setSelectedService(null)}
+      >
         <DialogContent className="sm:max-w-[700px] max-h-[85vh] overflow-y-auto">
           {service && (
             <>
@@ -268,7 +243,9 @@ const ServicesGallery = ({
                     {Array.isArray(section.content) ? (
                       <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
                         {section.content.map((item, itemIdx) => (
-                          <li key={itemIdx} className="leading-relaxed">{item}</li>
+                          <li key={itemIdx} className="leading-relaxed">
+                            {item}
+                          </li>
                         ))}
                       </ul>
                     ) : (
@@ -282,20 +259,17 @@ const ServicesGallery = ({
 
               {/* CTA Button */}
               <div className="pt-6 border-t border-border flex gap-3">
-                <Button 
+                <Button
                   variant="outline"
                   className="flex-1"
                   onClick={() => setSelectedService(null)}
                 >
                   Close
                 </Button>
-                <Button 
-                  className="flex-1"
-                  asChild
-                >
-                  <a 
-                    href={BOOKING_URL} 
-                    target="_blank" 
+                <Button className="flex-1" asChild>
+                  <a
+                    href={BOOKING_URL}
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     Book Appointment
